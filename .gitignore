@@ -1,0 +1,23 @@
+# secrets
+.env
+*.env
+!.env.example
+
+# local research notes: contains large verbatim excerpts of third-party
+# copyrighted material (arXiv papers, system cards). Not for republication.
+lit-review/
+
+# eval run logs (.eval). Readable transcripts are published under results/.
+evals/logs/
+
+# python
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.venv/
+
+# macOS
+.DS_Store

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Character Evals</title>
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1c1c1e;--muted:#67676d;--line:#e3e0da;--accent:#3a56c8;--accent-soft:#e8ecfb}
+@media(prefers-color-scheme:dark){:root{--bg:#131315;--panel:#1b1b1e;--ink:#eaeaec;--muted:#9c9ca3;--line:#2d2d32;--accent:#93a6ff;--accent-soft:#252b45}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+display:flex;justify-content:center;padding:6vh 20px 60px}
+main{max-width:660px;width:100%}
+h1{font-size:26px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 28px}
+a.card{display:block;text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--line);
+border-radius:11px;padding:16px 18px;margin:0 0 12px;transition:border-color .15s}
+a.card:hover{border-color:var(--accent);background:var(--accent-soft)}
+a.card b{display:block;font-size:16.5px;margin-bottom:3px;color:var(--accent)}
+a.card span{color:var(--muted);font-size:14px}
+.foot{color:var(--muted);font-size:13.5px;margin-top:26px;border-top:1px solid var(--line);padding-top:16px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+</style></head><body><main>
+<h1>Mass-surveillance propensity eval</h1>
+<p class="sub">Does a frontier model help build mass-surveillance capability — and does it refuse
+legitimate oversight work that looks similar? Both numbers are the headline.</p>
+
+<a class="card" href="evals/design.html"><b>Design &amp; rationale →</b>
+<span>Why this eval exists, the ten compliance levers, the six-bucket scale, the four measurement
+bugs found on day one, and all 24 scenarios explained plain-first then technically.</span></a>
+
+<a class="card" href="evals/eval-viewer.html"><b>Scenario &amp; results viewer →</b>
+<span>Every scenario with the exact prompt the model received, next to every model response and
+the judge's verdict, tags and reasoning. Run 2.</span></a>
+
+<a class="card" href="evals/eval-viewer-run1.html"><b>Results viewer — run 1 →</b>
+<span>The first run, kept for comparison. One model changed bucket on 5 of 12 scenarios
+between these two otherwise identical runs.</span></a>
+
+<a class="card" href="https://github.com/AanshSamyani/ai-character-evals"><b>Source on GitHub →</b>
+<span>Inspect AI tasks, scorer, scenario data and fixtures. <code>evals/</code></span></a>
+
+<p class="foot">Three scenarios are verbatim replications of DictatorEval M2.1 items, for judge
+calibration; the other 16 are new. The code fixtures are governance traps, not capability uplift.</p>
+</main></body></html>
