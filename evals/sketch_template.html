@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Surveillance Activity Taxonomy &amp; Sketches</title>
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--panel-2:#f1efea;--ink:#1c1c1e;--muted:#67676d;--line:#e3e0da;
+--accent:#3a56c8;--accent-soft:#e8ecfb;--quote:#fcfbf9;--ok:#2d7a4c;--ok-bg:#e3f2e8;
+--info:#2566a6;--info-bg:#e2edf8;--warn:#9a5b00;--warn-bg:#faedd6;--bad:#b0261e;--bad-bg:#fbe4e2;--mark:#ffe58a}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131315;--panel:#1b1b1e;--panel-2:#232327;
+--ink:#eaeaec;--muted:#9c9ca3;--line:#2d2d32;--accent:#93a6ff;--accent-soft:#252b45;--quote:#18181b;
+--ok:#7fd3a0;--ok-bg:#1d3326;--info:#8cc0f2;--info-bg:#1b2a3a;--warn:#f0bd6a;--warn-bg:#3a2c14;
+--bad:#f59a93;--bad-bg:#3d1e1c;--mark:#6b5a12}}
+:root[data-theme="dark"]{--bg:#131315;--panel:#1b1b1e;--panel-2:#232327;--ink:#eaeaec;--muted:#9c9ca3;
+--line:#2d2d32;--accent:#93a6ff;--accent-soft:#252b45;--quote:#18181b;--ok:#7fd3a0;--ok-bg:#1d3326;
+--info:#8cc0f2;--info-bg:#1b2a3a;--warn:#f0bd6a;--warn-bg:#3a2c14;--bad:#f59a93;--bad-bg:#3d1e1c;--mark:#6b5a12}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+a{color:var(--accent)}code{font:12.5px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--panel-2);border-radius:4px;padding:1px 5px}
+.layout{display:grid;grid-template-columns:320px minmax(0,1fr);min-height:100vh}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid var(--line);background:var(--panel);padding:18px 14px 40px}
+.brand{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 6px 4px}
+.ttl{font-weight:650;font-size:15.5px;margin:0 6px 14px;line-height:1.3}.ttl a{text-decoration:none;color:inherit}
+.search{position:relative;margin:0 4px 10px}
+.search input{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px}
+.search input:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.search kbd{position:absolute;right:8px;top:8px;font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+.fgroup{margin:0 4px 10px}
+.fgroup .h{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 4px 5px;font-weight:700}
+.fgroup button{font:inherit;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);
+background:var(--bg);color:var(--muted);cursor:pointer;margin:0 3px 3px 0}
+.fgroup button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink);font-weight:600}
+nav a{display:block;text-decoration:none;color:var(--ink);border-radius:7px;padding:6px 8px}
+nav a:hover{background:var(--panel-2)}nav a.active{background:var(--accent-soft)}
+nav .r1{display:flex;gap:7px;align-items:baseline}
+nav .sid{font-weight:600;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+nav .st{margin-left:auto;font-size:10.5px}
+nav .r2{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.35}
+.foot{margin:18px 8px 0;font-size:12px;color:var(--muted)}
+.foot button{font:inherit;font-size:12px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 8px;cursor:pointer}
+main{padding:28px 44px 90px;max-width:1010px;min-width:0;overflow-wrap:break-word}
+h1{font-size:25px;margin:0 0 4px;line-height:1.22}
+h2{font-size:19px;margin:36px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+h3{font-size:15px;margin:22px 0 7px}
+p{margin:0 0 11px}
+.meta{color:var(--muted);font-size:13.5px}
+.kicker{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:18px 0 5px}
+.chip{display:inline-block;font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:1px 9px;color:var(--muted);margin:0 4px 4px 0;white-space:nowrap}
+.chip b{color:var(--ink);font-weight:600}
+.badge{display:inline-block;font-size:11px;font-weight:600;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.s-sketch{color:var(--info);background:var(--info-bg)}.s-built{color:var(--ok);background:var(--ok-bg)}
+.u-very_high{color:var(--bad);background:var(--bad-bg)}.u-high{color:var(--warn);background:var(--warn-bg)}
+.u-moderate{color:var(--info);background:var(--info-bg)}.u-low{color:var(--muted);background:var(--panel-2)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0}
+.card.plain{background:var(--accent-soft);border-color:transparent}
+.card.q{background:var(--warn-bg);border-color:transparent}
+.lbl{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;margin:0 0 6px;color:var(--muted)}
+pre{margin:0;white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;
+background:var(--quote);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow:auto}
+ul{margin:0 0 11px;padding-left:22px}li{margin:0 0 5px}
+table{border-collapse:collapse;font-size:12.5px;margin:12px 0}
+th,td{text-align:left;padding:5px 8px;border:1px solid var(--line);vertical-align:top}
+th{font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--panel-2)}
+td.empty{background:var(--bg);color:var(--muted);text-align:center}
+td.hit{background:var(--ok-bg)}
+.mx{overflow-x:auto}.mx td.id{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px}
+.outc{display:grid;grid-template-columns:70px 1fr;gap:6px 12px;font-size:14px;margin:8px 0}
+.outc .k{font-weight:650}
+.outc .pass{color:var(--ok)}.outc .fail{color:var(--warn)}.outc .worst{color:var(--bad)}
+mark{background:var(--mark);color:inherit;border-radius:2px}
+@media(max-width:880px){.layout{grid-template-columns:1fr}aside{position:static;height:auto}main{padding:20px 16px 60px}}
+</style></head><body>
+<div class="layout">
+<aside>
+  <p class="brand">Power concentration</p>
+  <p class="ttl"><a href="#overview">Mass surveillance: activities &amp; scenario sketches</a></p>
+  <div class="search"><input id="q" type="search" placeholder="Search sketches" autocomplete="off"><kbd>/</kbd></div>
+  <div id="filters"></div>
+  <nav id="nav"></nav>
+  <div class="fgroup" style="margin-top:16px"><p class="h">Worlds (one per activity)</p></div>
+  <nav id="wnav"></nav>
+  <div class="fgroup" style="margin-top:16px"><p class="h">Activity taxonomy</p></div>
+  <nav id="anav"></nav>
+  <p class="foot"><span id="built"></span><br><br><button id="theme">theme</button></p>
+</aside>
+<main id="main"></main>
+</div>
+<script type="application/json" id="data">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const AX = D.axes, SK = D.sketches, BUILT = D.built_scenarios;
+const ACT = D.activities || [], UORD = D.uplift_order || [];
+const WLD = D.worlds || [], WAX = D.world_axes || {}, INST = D.instruments || [];
+const wById = new Map(WLD.map(w=>[w.id,w])), wByAct = new Map(WLD.map(w=>[w.activity,w]));
+const actById = new Map(ACT.map(a=>[a.id,a]));
+const byId = new Map(SK.map(s=>[s.id,s]));
+const esc = t => String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const FILTER_AXES = ['model_role','safeguard','surface','uplift'];
+let active = {}, term = '';
+
+function axLabel(a,v){ return (AX[a] && AX[a].values && AX[a].values[v]) ? v : v; }
+
+function visible(){
+  const t = term.trim().toLowerCase();
+  return SK.filter(s=>{
+    for (const a of FILTER_AXES) if (active[a] && s.axes[a] !== active[a]) return false;
+    if (!t) return true;
+    return JSON.stringify(s).toLowerCase().includes(t);
+  });
+}
+
+function buildFilters(){
+  const el = document.getElementById('filters');
+  el.innerHTML = FILTER_AXES.map(a=>{
+    const counts = {};
+    SK.forEach(s=>counts[s.axes[a]] = (counts[s.axes[a]]||0)+1);
+    const vals = Object.keys(AX[a].values).filter(v=>counts[v]);
+    return `<div class="fgroup"><p class="h">${esc(AX[a].label)}</p>
+      <button data-ax="${a}" data-v="" class="${!active[a]?'on':''}">all ${SK.length}</button>
+      ${vals.map(v=>`<button data-ax="${a}" data-v="${esc(v)}" class="${active[a]===v?'on':''}"
+        title="${esc(AX[a].values[v])}">${esc(v.replace(/_/g,' '))} ${counts[v]}</button>`).join('')}</div>`;
+  }).join('');
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    const a=b.dataset.ax, v=b.dataset.v;
+    if(!v) delete active[a]; else active[a]=v;
+    buildFilters(); buildNav(); buildWNav(); buildANav(); route();
+  });
+}
+
+function buildWNav(){
+  document.getElementById('wnav').innerHTML = WLD.map(w=>`
+    <a href="#w/${encodeURIComponent(w.id)}" data-wid="${esc(w.id)}">
+      <span class="r1"><span class="sid">${esc(w.id)}</span>
+      <span class="st chip" style="margin:0">${w.ladder.length} rungs</span></span>
+      <span class="r2">${esc(w.name)} <span style="opacity:.7">· ${esc(w.axis.replace(/_/g,' '))}</span></span></a>`).join('');
+}
+
+function renderWorld(id){
+  const w = wById.get(id);
+  if(!w) return `<p class="meta">Unknown world <code>${esc(id)}</code>.</p>`;
+  const act = actById.get(w.activity);
+  let h = `<h1>${esc(w.id)} — ${esc(w.name)}</h1>
+    <p><span class="chip">activity <b><a href="#a/${esc(w.activity)}">${esc(w.activity)}${act?' '+esc(act.name):''}</a></b></span>
+       <span class="chip">instruments axis <b>${esc(w.axis.replace(/_/g,' '))}</b></span>
+       <span class="chip">rungs <b>${w.ladder.length}</b></span>
+       ${act?`<span class="badge u-${esc(act.uplift)}">uplift: ${esc(act.uplift.replace('_',' '))}</span>`:''}</p>
+    <p class="meta">${esc(WAX[w.axis]||'')}</p>
+    <div class="card plain"><p class="lbl">What the world is</p><p style="margin:0">${esc(w.plain)}</p></div>
+
+    <h2>Historical anchor</h2>
+    <p class="kicker">${esc(w.anchor_case)}</p><p>${esc(w.anchor_detail)}</p>
+
+    <h2>The deployment</h2>
+    <p class="kicker">Setting</p><p>${esc(w.setting)}</p>
+    <p class="kicker">Operator system prompt</p><pre>${esc(w.system_prompt)}</pre>
+    <p class="kicker">The request</p><p>${esc(w.request)}</p>
+
+    <h2>The three layers</h2>
+    <div class="card"><p class="lbl">2 · Discoverable ground truth</p><p style="margin:0">${esc(w.ground_truth)}</p></div>
+    <div class="card"><p class="lbl">3 · Channels for action</p>
+      <ul style="margin:0">${w.channels.map(c=>`<li><code>${esc(c)}</code></li>`).join('')}</ul></div>
+    <p class="kicker">Tools</p><pre>${w.tools.map(esc).join('\n')}</pre>
+
+    <h2>The grey area</h2>
+    <p class="kicker">Legitimate core — the model should serve this</p><p>${esc(w.legit_core)}</p>
+    <p class="kicker">The harmful step</p><p>${esc(w.harmful_step)}</p>
+
+    <h2>The ladder <span class="meta">— only this varies</span></h2>
+    <table style="width:100%"><thead><tr><th>#</th><th>rung</th><th>what changes</th></tr></thead><tbody>
+    ${w.ladder.map(([k,v],i)=>`<tr><td class="num">${i+1}</td><td><b>${esc(k)}</b></td><td>${esc(v)}</td></tr>`).join('')}
+    </tbody></table>
+
+    <h2>Grading</h2><div class="outc">
+      <div class="k pass">Pass</div><div>${esc(w.grading_pass)}</div>
+      <div class="k fail">Fail</div><div>${esc(w.grading_fail)}</div>
+      <div class="k worst">Worst</div><div>${esc(w.grading_worst)}</div></div>
+    <p class="kicker">Behaviours logged separately from compliance</p>
+    <p>${INST.map(i=>`<span class="chip"><b>${esc(i)}</b></span>`).join('')}</p>
+    <p class="kicker">Why it is orthogonal</p><p>${esc(w.orthogonal)}</p>
+    ${w.safety_note?`<div class="card q"><p class="lbl">Safety constraint on building this</p><p style="margin:0">${esc(w.safety_note)}</p></div>`:''}`;
+  return h;
+}
+
+function worldTable(){
+  const rungs = WLD.reduce((n,w)=>n+w.ladder.length,0);
+  return `<p>One world per activity. A world is a fixed organisation, role, system prompt and environment where
+    <b>exactly one dimension varies across rungs</b> — so a difference between rungs is attributable to that
+    dimension rather than to the topic. ${WLD.length} worlds give <b>${rungs} scenario instances</b>, with
+    within-world controls that a suite of one-off scenarios cannot have.</p>
+  <p class="meta">Every world also carries an operator system prompt. All twelve previously built scenarios were
+    bare user messages, which measured "will you do this for a stranger" rather than "will you do this for your
+    operator" — the deployment-realistic question.</p>
+  <table style="width:100%"><thead><tr><th>world</th><th>activity</th><th>axis instrumented</th>
+    <th>rungs</th><th>historical anchor</th></tr></thead><tbody>
+  ${WLD.map(w=>{const a=actById.get(w.activity);return `<tr>
+    <td class="id"><a href="#w/${encodeURIComponent(w.id)}">${esc(w.id)}</a> ${esc(w.name)}</td>
+    <td><a href="#a/${esc(w.activity)}">${esc(w.activity)}</a> ${a?`<span class="badge u-${esc(a.uplift)}">${esc(a.uplift.replace('_',' '))}</span>`:''}</td>
+    <td>${esc(w.axis.replace(/_/g,' '))}</td><td class="num">${w.ladder.length}</td>
+    <td class="meta">${esc(w.anchor_case)}</td></tr>`}).join('')}</tbody></table>`;
+}
+
+function buildANav(){
+  document.getElementById('anav').innerHTML = ACT.map(a=>`
+    <a href="#a/${encodeURIComponent(a.id)}" data-aid="${esc(a.id)}">
+      <span class="r1"><span class="sid">${esc(a.id)}</span>
+      <span class="st badge u-${esc(a.uplift)}">${esc(a.uplift.replace('_',' '))}</span></span>
+      <span class="r2">${esc(a.name)}</span></a>`).join('');
+}
+
+function renderActivity(id){
+  const a = actById.get(id);
+  if(!a) return `<p class="meta">Unknown activity <code>${esc(id)}</code>.</p>`;
+  let h = `<h1>${esc(a.id)} — ${esc(a.name)}</h1>
+    <p><span class="badge u-${esc(a.uplift)}">uplift: ${esc(a.uplift.replace('_',' '))}</span>
+       <span class="chip">our coverage <b>${esc(a.coverage)}</b></span></p>
+    <div class="card plain"><p class="lbl">What the activity is</p><p style="margin:0">${esc(a.plain)}</p></div>
+    <h2>Documented instances</h2>
+    ${a.history.map(([src,txt])=>`<div class="card"><p class="lbl">${esc(src)}</p><p style="margin:0">${esc(txt)}</p></div>`).join('')}
+    <h2>Who did the work, and what limited it</h2>
+    <p class="kicker">Historical labour</p><p>${esc(a.labour)}</p>
+    <p class="kicker">The bottleneck</p><p>${esc(a.bottleneck)}</p>
+    <h2>Where AI changes things <span class="badge u-${esc(a.uplift)}">${esc(a.uplift.replace('_',' '))}</span></h2>
+    <p>${esc(a.uplift_why)}</p>
+    <div class="card q"><p class="lbl">Note for scenario design</p><p style="margin:0">${esc(a.note)}</p></div>`;
+  const w = wByAct.get(a.id);
+  if(w) h += `<h2>World built on this activity</h2>
+    <p><a href="#w/${encodeURIComponent(w.id)}"><b>${esc(w.id)} — ${esc(w.name)}</b></a>
+    · instruments <b>${esc(w.axis.replace(/_/g,' '))}</b> across ${w.ladder.length} rungs
+    · anchored in ${esc(w.anchor_case)}</p>`;
+  return h;
+}
+
+function activityTable(){
+  const sorted = [...ACT].sort((x,y)=>UORD.indexOf(x.uplift)-UORD.indexOf(y.uplift));
+  return `<p>Ordered by uplift, which is the build-priority order. The bottleneck column is the analytical
+    payload: it is what distinguishes an activity a model transforms from one it merely assists.</p>
+  <table style="width:100%"><thead><tr><th>id</th><th>activity</th><th>historical bottleneck</th>
+    <th>uplift</th><th>our coverage</th></tr></thead><tbody>
+  ${sorted.map(a=>`<tr><td class="id"><a href="#a/${encodeURIComponent(a.id)}">${esc(a.id)}</a></td>
+    <td><b>${esc(a.name)}</b></td><td class="meta">${esc(a.bottleneck.split('.')[0])}.</td>
+    <td><span class="badge u-${esc(a.uplift)}">${esc(a.uplift.replace('_',' '))}</span></td>
+    <td class="meta">${esc(a.coverage)}</td></tr>`).join('')}</tbody></table>`;
+}
+
+function buildNav(){
+  const rows = visible();
+  document.getElementById('nav').innerHTML = rows.length
+    ? rows.map(s=>`<a href="#s/${encodeURIComponent(s.id)}" data-id="${esc(s.id)}">
+        <span class="r1"><span class="sid">${esc(s.id)}</span>
+        <span class="st badge u-${esc(s.axes.uplift)}">${esc(s.axes.uplift.replace('_',' '))}</span></span>
+        <span class="r2">${esc(s.title)}</span></a>`).join('')
+    : '<p class="meta" style="padding:8px">No matches.</p>';
+  markActive();
+}
+function markActive(){
+  const id=(location.hash.match(/^#s\/(.+)$/)||[])[1];
+  document.querySelectorAll('#nav a').forEach(a=>
+    a.classList.toggle('active', !!id && a.dataset.id===decodeURIComponent(id)));
+  const aid=(location.hash.match(/^#a\/(.+)$/)||[])[1];
+  document.querySelectorAll('#anav a').forEach(a=>
+    a.classList.toggle('active', !!aid && a.dataset.aid===decodeURIComponent(aid)));
+  const wid=(location.hash.match(/^#w\/(.+)$/)||[])[1];
+  document.querySelectorAll('#wnav a').forEach(a=>
+    a.classList.toggle('active', !!wid && a.dataset.wid===decodeURIComponent(wid)));
+}
+
+function matrix(){
+  const roles = Object.keys(AX.model_role.values), safes = Object.keys(AX.safeguard.values);
+  const cell = {};
+  SK.forEach(s=>{const k=s.axes.model_role+'|'+s.axes.safeguard;(cell[k]=cell[k]||[]).push({id:s.id,st:'sketch'})});
+  BUILT.forEach(b=>{const k=b.axes.model_role+'|'+b.axes.safeguard;(cell[k]=cell[k]||[]).push({id:b.id,st:'built'})});
+  const filled = Object.keys(cell).length, total = roles.length*safes.length;
+  return `<p>Rows are what the model does; columns are the safeguard under attack. Green cells are covered —
+    <span class="badge s-built">built</span> scenarios in the suite and <span class="badge s-sketch">sketch</span>
+    candidates. <b>Every empty cell is a scenario nobody has written.</b> ${filled} of ${total} filled.</p>
+  <div class="mx"><table><thead><tr><th>role \\ safeguard</th>
+    ${safes.map(s=>`<th title="${esc(AX.safeguard.values[s])}">${esc(s.replace(/_/g,' '))}</th>`).join('')}</tr></thead><tbody>
+    ${roles.map(r=>`<tr><th title="${esc(AX.model_role.values[r])}">${esc(r)}</th>
+      ${safes.map(s=>{const c=cell[r+'|'+s];
+        return c ? `<td class="hit id">${c.map(x=>x.st==='sketch'
+          ?`<a href="#s/${encodeURIComponent(x.id)}">${esc(x.id)}</a>`:esc(x.id)).join('<br>')}</td>`
+        : `<td class="empty">·</td>`;}).join('')}</tr>`).join('')}
+    </tbody></table></div>`;
+}
+
+function renderSketch(id){
+  const s = byId.get(id);
+  if(!s) return `<p class="meta">Unknown sketch <code>${esc(id)}</code>.</p>`;
+  const A = s.axes;
+  let h = `<h1>${esc(s.id)} — ${esc(s.title)}</h1>
+    <p><span class="badge s-${esc(s.status)}">${esc(s.status)}</span>
+       <span class="badge u-${esc(A.uplift)}">uplift: ${esc(A.uplift.replace('_',' '))}</span>
+       ${s.priority?`<span class="chip">priority <b>${esc(s.priority)}</b></span>`:''}</p>
+    <p>${FILTER_AXES.map(a=>`<span class="chip" title="${esc(AX[a].values[A[a]]||'')}">${esc(AX[a].label)} <b>${esc(String(A[a]).replace(/_/g,' '))}</b></span>`).join('')}
+       <span class="chip">data <b>${esc(A.data)}</b></span>
+       <span class="chip">harmed <b>${esc(A.harmed)}</b></span>
+       <span class="chip">domain <b>${esc(A.domain)}</b></span></p>`;
+
+  h += `<div class="card plain"><p class="lbl">What the scenario is</p><p style="margin:0">${esc(s.plain)}</p></div>`;
+  h += `<p class="kicker">What the AI is being used for</p><p>${esc(s.ai_use)}</p>`;
+
+  h += `<h2>The environment we would provide</h2><p>${esc(s.env_desc)}</p>
+    ${s.env_tools?`<pre>${s.env_tools.map(esc).join('\n')}</pre>`:''}
+    ${s.env_seed?`<p class="kicker">Seeded content</p><p>${esc(s.env_seed)}</p>`:''}`;
+
+  h += `<h2>Why this is realistic</h2><p>${esc(s.realism)}</p>`;
+  h += `<h2>Capability uplift <span class="badge u-${esc(A.uplift)}">${esc(A.uplift.replace('_',' '))}</span></h2>
+    <p>${esc(s.uplift_detail)}</p>`;
+
+  h += `<h2>The grey area</h2>
+    <p class="kicker">The legitimate core — the model should help with this</p><p>${esc(s.legit_core)}</p>
+    <p class="kicker">The harmful step</p><ul>${s.harmful_step.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+
+  h += `<h2>Grading</h2><div class="outc">
+    <div class="k pass">Pass</div><div>${esc(s.outcome_pass)}</div>
+    <div class="k fail">Fail</div><div>${esc(s.outcome_fail)}</div>
+    <div class="k worst">Worst</div><div>${esc(s.outcome_worst)}</div></div>
+    <p class="kicker">Lever isolated</p><p>${esc(s.lever)}</p>
+    <p class="kicker">Matched benign twin</p>
+    <p><code>${esc(s.twin_id)}</code> — ${esc(s.twin_desc)}</p>
+    <p class="kicker">Why it is orthogonal</p><p>${esc(s.orthogonal)}</p>`;
+
+  if(s.open_question) h += `<div class="card q"><p class="lbl">Open question — your input wanted</p>
+    <p style="margin:0">${esc(s.open_question)}</p></div>`;
+  return h;
+}
+
+function renderOverview(){
+  let h = `<h1>Mass-surveillance scenario sketches</h1>
+    <p class="meta">${SK.length} candidates · ${BUILT.length} already built · built ${esc(D.built)}</p>
+    <p>Candidates designed but not yet implemented. Each is tagged on four orthogonality axes so overlap is
+    visible rather than hoped about, and each carries a legitimate core, a harmful step, a grading rule and a
+    matched benign twin. ${SK.filter(s=>s.open_question).length} have open questions marked for review.</p>`;
+  h += `<h2>Worlds</h2>${worldTable()}`;
+  h += `<h2>Activity taxonomy</h2>${activityTable()}
+  <div class="card q"><p class="lbl">What the bottleneck analysis shows</p>
+  <p>Two results worth stating plainly. <b>Bulk collection (A2) is not where AI matters</b> — it was never
+  labour-limited, and nothing about a language model makes a telegram easier to copy. The activities AI
+  transforms are <b>reading what was already collected (A4)</b>, <b>scoring people on content rather than
+  proxies (A7)</b>, <b>writing the justification (A10)</b>, <b>defining the prohibited category (A8)</b>,
+  <b>turning the apparatus inward (A15)</b>, and <b>re-examining the archive under a new rule (A12)</b> —
+  the last of which AI largely creates rather than accelerates.</p>
+  <p style="margin:0">Of those six very-high-uplift activities, A12 is the most under-built relative to its
+  importance, and A11 (acting on the flag) is the thinnest relative to its severity.</p></div>`;
+  h += `<h2>Coverage matrix</h2>${matrix()}`;
+  h += `<h2>Candidates</h2>
+    <table style="width:100%"><thead><tr><th>id</th><th>title</th><th>role</th><th>safeguard</th>
+      <th>surface</th><th>uplift</th><th>priority</th></tr></thead><tbody>
+    ${SK.map(s=>`<tr><td class="id"><a href="#s/${encodeURIComponent(s.id)}">${esc(s.id)}</a></td>
+      <td>${esc(s.title)}</td><td>${esc(s.axes.model_role)}</td>
+      <td>${esc(String(s.axes.safeguard).replace(/_/g,' '))}</td><td>${esc(s.axes.surface)}</td>
+      <td><span class="badge u-${esc(s.axes.uplift)}">${esc(s.axes.uplift.replace('_',' '))}</span></td>
+      <td class="meta">${esc(s.priority||'')}</td></tr>`).join('')}</tbody></table>`;
+  h += `<h2>Axis vocabularies</h2>
+    ${Object.entries(AX).map(([a,o])=>`<h3>${esc(o.label)} <code>${esc(a)}</code></h3>
+      <table><tbody>${Object.entries(o.values).map(([v,d])=>
+        `<tr><th style="white-space:nowrap">${esc(v)}</th><td>${esc(d)}</td></tr>`).join('')}</tbody></table>`).join('')}`;
+  h += `<h2>Considered and set aside</h2>
+    <p class="meta">Kept so they are not silently re-invented.</p>
+    ${D.rejected.map(r=>`<div class="card"><p class="lbl">${esc(r.title)}</p><p style="margin:0">${esc(r.why)}</p></div>`).join('')}`;
+  return h;
+}
+
+function route(){
+  const m = location.hash.match(/^#s\/(.+)$/), ma = location.hash.match(/^#a\/(.+)$/),
+        mw = location.hash.match(/^#w\/(.+)$/);
+  document.getElementById('main').innerHTML =
+    m ? renderSketch(decodeURIComponent(m[1]))
+      : ma ? renderActivity(decodeURIComponent(ma[1]))
+      : mw ? renderWorld(decodeURIComponent(mw[1]))
+      : renderOverview();
+  if(term.trim()) highlight(document.getElementById('main'), term.trim());
+  markActive(); window.scrollTo(0,0);
+}
+function highlight(root,t){
+  const re = new RegExp('('+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), hits=[];
+  while(w.nextNode()) if(re.test(w.currentNode.nodeValue)) hits.push(w.currentNode);
+  for(const n of hits){const sp=document.createElement('span');
+    sp.innerHTML = esc(n.nodeValue).replace(re,'<mark>$1</mark>'); n.parentNode.replaceChild(sp,n);}
+}
+
+document.getElementById('built').textContent = 'built ' + D.built;
+document.getElementById('theme').onclick=()=>{
+  const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',n);
+  try{localStorage.setItem('surveil-theme',n)}catch(e){}};
+try{const t=localStorage.getItem('surveil-theme'); if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}
+const q=document.getElementById('q');
+q.oninput=()=>{term=q.value; buildNav(); route();};
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&document.activeElement!==q){e.preventDefault();q.focus();return;}
+  if(document.activeElement===q) return;
+  if(e.key==='j'||e.key==='k'){
+    const rows=visible(), cur=(location.hash.match(/^#s\/(.+)$/)||[])[1];
+    const i=rows.findIndex(s=>s.id===(cur&&decodeURIComponent(cur)));
+    const n=e.key==='j'?Math.min(rows.length-1,i+1):Math.max(0,i-1);
+    if(rows[n]) location.hash='#s/'+encodeURIComponent(rows[n].id);
+  }});
+window.addEventListener('hashchange',route);
+buildFilters(); buildNav(); buildWNav(); buildANav(); route();
+</script></body></html>
